@@ -1,9 +1,9 @@
 package jacare.geocodingexample;
 
+import android.location.Address;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -12,20 +12,24 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
-import butterknife.OnEditorAction;
+import butterknife.ButterKnife;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapClickListener {
-    @BindView(R.id.address_output)TextView addressOutput;
+    private EditText destAddressContainer;
 
-    private GoogleMap mMap;
-    private Marker marker;
-    private String address;
+    private LocationHelper locationHelper;
+    private GoogleMap map;
+
+    private Marker destMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        destAddressContainer = (EditText)findViewById(R.id.address);
+
         setUpMapIfNeeded();
+        locationHelper = new LocationHelper(this);
     }
 
     @Override
@@ -35,16 +39,25 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapCli
     }
 
     private void setUpMapIfNeeded() {
-        if (mMap == null) {
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
-        }
+        if (map == null)
+            map = ((SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map)).getMap();
+        map.setOnMapClickListener(this);
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
-        if(marker != null)
-            marker.remove();
-        marker = mMap.addMarker(new MarkerOptions().position(latLng));
+        if(destMarker != null)
+            destMarker.remove();
+        destMarker = map.addMarker(new MarkerOptions().position(latLng));
+        locationHelper.convertLatLngToAddress(latLng, new LocationHelper.AddressListener() {
+            @Override
+            public void onConversionFinished(Address address) {
+                if(address != null) {
+                    String addressLine = address.getAddressLine(0);
+                    destAddressContainer.setText(addressLine);
+                }
+            }
+        });
     }
 }
