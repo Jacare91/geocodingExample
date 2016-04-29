@@ -1,16 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/maps.background"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/address_output"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="32dp"/>
-</LinearLayout>
+        android:layout_above="@+id/address_output"/>
+    <EditText
+        android:id="@+id/address_output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-light"
+        android:layout_margin="@dimen/maps.address.margin"
+        android:layout_marginTop="@dimen/maps.address.margin.top"
+        android:textColor="@color/maps.address.color.text"
+        android:textColorHint="@color/maps.address.color.hint"
+        android:backgroundTint="@color/maps.address.color.tint"
+        android:textSize="@dimen/maps.address.textSize"
+        android:hint="@string/maps.address.hint"/>
+</RelativeLayout>

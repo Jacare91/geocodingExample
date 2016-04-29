@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="maps.address.margin">16dp</dimen>
+    <dimen name="maps.address.margin.top">8dp</dimen>
+    <dimen name="maps.address.textSize">16sp</dimen>
+</resources>

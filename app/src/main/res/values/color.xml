@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="maps.background">#AFAFAF</color>
+    <color name="maps.address.color.text">#FFFF1D</color>
+    <color name="maps.address.color.tint">#FFFF1D</color>
+    <color name="maps.address.color.hint">#FFFFDA</color>
+</resources>

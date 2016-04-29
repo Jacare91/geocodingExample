@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">GeocodingExample</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="maps.address.hint">Enter address here or click on map</string>
 </resources>
