@@ -1,5 +1,6 @@
 package jacare.geocodingexample;
 
+import android.location.Address;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapClickListener {
     @Bind(R.id.address) protected EditText destAddressContainer;
@@ -48,11 +50,20 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapCli
         if(destMarker != null)
             destMarker.remove();
         destMarker = map.addMarker(new MarkerOptions().position(latLng));
-        locationHelper.convertLatLngToAddress(latLng, address -> {
-            if(address != null) {
-                String addressLine = address.getAddressLine(0);
-                destAddressContainer.setText(addressLine);
-            }
-        });
+
+        locationHelper.convertLatLngToAddress(latLng)
+                .subscribe(addresses -> {
+                    if(addresses != null || addresses.size() > 0){
+                        String addressLine = addresses.get(0).getAddressLine(0);
+                        destAddressContainer.setText(addressLine);
+                    }else
+                        handleLatLngToAddressError();
+                });
+    }
+
+
+
+    protected void handleLatLngToAddressError(){
+        //TODO: add some way to display addresses or whatever.
     }
 }

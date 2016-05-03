@@ -10,48 +10,41 @@ import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 public class LocationHelper {
     public static final String TAG = "LocHelp";
 
-    private Context context;
+    private Geocoder geocoder;
 
     public LocationHelper(Context context) {
-        this.context = context;
+        geocoder = new Geocoder(context, Locale.getDefault());
     }
 
-    public void convertLatLngToAddress(final LatLng location, final AddressListener listener) {
+    public Observable<List<Address>> convertLatLngToAddress(final LatLng loc) {
         Log.i(TAG, "Converting input to address!");
 
-        new AsyncTask<Void, Void, Address>() {
-            @Override
-            protected Address doInBackground(Void... params) {
-                Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
-                    if (addresses.size() > 0) {
-                        Address address = addresses.get(0);
-                        return address;
+        return Observable.just(loc)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(latLng -> {
+                    List<Address> addresses = new ArrayList<Address>();
+                    try {
+                        addresses = geocoder.getFromLocation(loc.latitude, loc.longitude, 5);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d(TAG, "Something fucked up with geocoder!");
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "Something fucked up with geocoder!");
-                }
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Address address) {
-                if (listener != null && address != null)
-                    listener.onConversionFinished(address);
-            }
-        }.execute();
-    }
-
-    public interface AddressListener {
-        void onConversionFinished(Address address);
+                    return addresses;
+                });
     }
 }
