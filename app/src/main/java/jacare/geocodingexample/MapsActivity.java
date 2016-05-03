@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapClickListener {
-    @Bind(R.id.address) private EditText destAddressContainer;
+    @Bind(R.id.address) protected EditText destAddressContainer;
 
     private LocationHelper locationHelper;
     private GoogleMap map;
