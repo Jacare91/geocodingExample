@@ -16,6 +16,8 @@ import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 @RunWith(AndroidJUnit4.class)
@@ -35,13 +37,13 @@ public class LocationHelperTest extends TestCase {
     public void testConvertLatLngToAddressToTest() throws Exception {
         LatLng latLng = new LatLng(50.091721, 19.984128);
         boolean value = false;
-        locationHelper.convertLatLngToAddress(latLng, address -> finishAsyncTest(address));
+        locationHelper.convertLatLngToAddress(latLng).subscribe(adresses -> finishAsyncTest(adresses));
         signal.await();
         assertTrue(addressExistenceProof);
     }
 
-    protected void finishAsyncTest(Address address){
-        addressExistenceProof = address != null;
+    protected void finishAsyncTest(List<Address> adresses){
+        addressExistenceProof = adresses != null && adresses.size() > 0;
         signal.countDown();
     }
 }
