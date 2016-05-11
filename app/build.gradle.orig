@@ -7,9 +7,12 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+<<<<<<< Updated upstream
+=======
     testOptions {
         unitTests.returnDefaultValues = true
     }
+>>>>>>> Stashed changes
 
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -27,6 +30,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+<<<<<<< Updated upstream
+=======
+    productFlavors {
+    }
+>>>>>>> Stashed changes
 }
 
 dependencies {

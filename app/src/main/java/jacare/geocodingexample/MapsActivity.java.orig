@@ -1,5 +1,9 @@
 package jacare.geocodingexample;
 
+<<<<<<< Updated upstream
+import android.support.v4.app.FragmentActivity;
+=======
+>>>>>>> Stashed changes
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.EditText;
@@ -11,10 +15,22 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+<<<<<<< Updated upstream
 import butterknife.BindView;
 import butterknife.OnEditorAction;
+
+public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapClickListener {
+    @BindView(R.id.address_output)TextView addressOutput;
+
+    private GoogleMap mMap;
+    private Marker marker;
+    private String address;
+=======
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import jacare.geocodingexample.model.LocHelper;
 import jacare.geocodingexample.model.LocTracker;
+import rx.Observable;
 
 public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapClickListener {
     public static final String TAG = "Trnspt.Maps";
@@ -28,29 +44,54 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapCli
     private Observable<LatLng> mapClickObs;
 
     private Marker currLocMarker;
+    private Marker destMarker;
+>>>>>>> Stashed changes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+<<<<<<< Updated upstream
+        setUpMapIfNeeded();
+=======
+        ButterKnife.bind(this);
 
         locTracker = startTracker();
         locHelper = new LocHelper(this);
         if(map == null)
             map = startMap();
+>>>>>>> Stashed changes
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+<<<<<<< Updated upstream
+        setUpMapIfNeeded();
+    }
+
+    private void setUpMapIfNeeded() {
+        if (mMap == null) {
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+        }
+=======
         startMap();
+>>>>>>> Stashed changes
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
-
+<<<<<<< Updated upstream
+        if(marker != null)
             marker.remove();
         marker = mMap.addMarker(new MarkerOptions().position(latLng));
+=======
+
+        if(destMarker != null)
+            destMarker.remove();
+        destMarker = map.addMarker(new MarkerOptions().position(latLng));
+
         locHelper.convertLatLngToAddress(latLng).subscribe(addresses -> {
             if (addresses != null || addresses.size() > 0) {
                 String addressLine = addresses.get(0).getAddressLine(0);
@@ -58,10 +99,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapCli
             } else
                 handleLatLngToAddressError();
         });
+    }
+
     private LocTracker startTracker(){
         LocTracker tracker = new LocTracker(this);
         tracker.getStartedLocUpdatesObs();
         tracker.getUpdatedLocObs().subscribe(latLng -> {
+
         });
         return tracker;
     }
@@ -76,5 +120,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMapCli
     private void updatedPosition(){
 
     }
+
+    protected void handleLatLngToAddressError(){
+        //TODO: add some way to display addresses or whatever.
+>>>>>>> Stashed changes
     }
 }
