@@ -4,7 +4,7 @@
  * Email: tomek.milosz.spedzia@gmail.com
  */
 
-package jacare.geocodingexample;
+package jacare.geocodingexample.model;
 
 import android.content.Context;
 import android.location.Address;

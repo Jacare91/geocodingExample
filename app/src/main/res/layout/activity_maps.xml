@@ -1,16 +1,29 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <TextView
+    <EditText
         android:id="@+id/address_output"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="gfdgdfg"
+        android:padding="@dimen/maps.address.start"/>
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="32dp"/>
-</LinearLayout>
+        android:layout_marginBottom="48dp"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        android:clickable="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:backgroundTint="#FF0000"
+        app:rippleColor="#FFF" />
+</RelativeLayout>
